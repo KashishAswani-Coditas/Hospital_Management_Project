@@ -13,6 +13,7 @@ import com.example.hospital_management.repository.DoctorRepository;
 import com.example.hospital_management.repository.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class DoctorService {
 
     private final DoctorRepository doctorRepo;
     private final DepartmentRepository deptRepo;
+    private final PasswordEncoder passwordEncoder;
 
     public DoctorResponseDTO addDoctor( DoctorRequestDTO doctor) {
 
@@ -32,7 +34,7 @@ public class DoctorService {
         Users users = Users.builder()
                 .username(doctor.getUsername())
                 .email(doctor.getEmail())
-                .password(doctor.getPassword())
+                .password(passwordEncoder.encode(doctor.getPassword()))
                 .role(Role.ROLE_DOCTOR)
                 .build();
         Doctor originalDoctor = Doctor.builder()

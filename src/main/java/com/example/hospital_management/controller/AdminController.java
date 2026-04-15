@@ -29,6 +29,12 @@ public class AdminController {
     private final DoctorService doctorService;
     private final AppointmentService appointmentService;
 
+
+    @GetMapping("/hello")
+    public String sayHello(){
+        return "Hellooo!!!";
+    }
+
     @PostMapping("/signup")
     public AdminResponseDTO registerAdmin(@Valid @RequestBody AdminRequestDTO admin){
         return adminService.registerAdmin(admin);

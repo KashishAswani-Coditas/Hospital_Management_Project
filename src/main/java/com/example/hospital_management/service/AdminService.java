@@ -10,6 +10,7 @@ import com.example.hospital_management.repository.AdminRepository;
 import com.example.hospital_management.repository.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,14 +19,16 @@ public class AdminService {
 
     private final UserRepository userRepo;
     private final AdminRepository adminRepo;
+    private final PasswordEncoder passwordEncoder;
 
     public AdminResponseDTO registerAdmin(@Valid AdminRequestDTO admin) {
         Users users = Users.builder()
                 .username(admin.getUsername())
                 .email(admin.getEmail())
-                .password(admin.getPassword())
+                .password(passwordEncoder.encode(admin.getPassword()))
                 .role(Role.ROLE_ADMIN)
                 .build();
+
         Admin originalAdmin = Admin.builder()
                 .designation(admin.getDesignation())
                 .users(users)
